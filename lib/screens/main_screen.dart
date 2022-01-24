@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:words_slide_puzzle/components/puzzle_box.dart';
+import 'package:words_slide_puzzle/constants.dart';
 
 class MainScreen extends StatelessWidget {
   static const String route = 'main_screen';
@@ -7,10 +10,57 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text(
-        'Hello world!',
-        style: TextStyle(color: Colors.red, fontSize: 150.0),
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Row(
+              children: [
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+              ],
+            ),
+            Row(
+              children: [
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+              ],
+            ),
+            Row(
+              children: [
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+              ],
+            ),
+            Row(
+              children: [
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+              ],
+            ),
+            Row(
+              children: [
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+                PuzzleBox(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
