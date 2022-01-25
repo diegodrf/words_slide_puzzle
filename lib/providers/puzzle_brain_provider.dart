@@ -3,6 +3,8 @@ import 'package:words_slide_puzzle/services/repository/local.dart';
 import 'dart:math';
 
 class PuzzleBrainProvider extends ChangeNotifier {
+  // TODO : Remove all code here, because it isn't responsible to manage words
+  // TODO: Apply here only boxes movement logic and compare if word is correct
   List<List<String>> _wordsAsListString = [];
   List<List<String>> get wordsAsListString => _wordsAsListString;
 

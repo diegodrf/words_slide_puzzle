@@ -5,3 +5,10 @@ const List<String> wordsDatabase = [
   'Plane',
   'Claim'
 ];
+
+// TODO : Create a Class to manage repository
+/// - Return words as String
+/// - Return words shuffled
+/// - Return words as List
+/// - Return words as shuffled List
+/// - Return N random words from database
