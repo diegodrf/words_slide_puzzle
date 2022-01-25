@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:words_slide_puzzle/components/puzzle_box.dart';
+import 'package:words_slide_puzzle/models/coordinates.dart';
 import 'package:words_slide_puzzle/providers/puzzle_brain_provider.dart';
 
 class PuzzleBoard extends StatelessWidget {
@@ -11,7 +12,7 @@ class PuzzleBoard extends StatelessWidget {
     return Consumer<PuzzleBrainProvider>(
       builder: (context, provider, child) {
         return Column(
-          children: generatePuzzleBoxes(provider.wordsAsListString),
+          children: generatePuzzleBoxes(provider.gameBoard),
         );
       },
     );
@@ -24,10 +25,13 @@ List<Row> generatePuzzleBoxes(List<List<String>> words) {
   /// It isn't be here
   /// The functionality is right
   List<Row> _ = [];
-  for (int y = 0; y< words.length; y++){
+  for (int y = 0; y < words.length; y++) {
     List<PuzzleBox> puzzleBoxesRow = [];
-    for (int x = 0; x< words[y].length; x++) {
-      puzzleBoxesRow.add(PuzzleBox(x: x, y: y));
+    for (int x = 0; x < words[y].length; x++) {
+      Coordinates coordinates = Coordinates(x: x, y: y);
+      puzzleBoxesRow.add(
+        PuzzleBox(coordinates: coordinates),
+      );
     }
     _.add(Row(children: puzzleBoxesRow));
   }
