@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:words_slide_puzzle/components/puzzle_box.dart';
-import 'package:words_slide_puzzle/constants.dart';
+import 'package:words_slide_puzzle/components/puzzle_board.dart';
 
 class MainScreen extends StatelessWidget {
   static const String route = 'main_screen';
@@ -13,53 +11,7 @@ class MainScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Column(
-          children: [
-            Row(
-              children: [
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-              ],
-            ),
-            Row(
-              children: [
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-              ],
-            ),
-            Row(
-              children: [
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-              ],
-            ),
-            Row(
-              children: [
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-              ],
-            ),
-            Row(
-              children: [
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-                PuzzleBox(),
-              ],
-            ),
-          ],
+          children: const [PuzzleBoard()],
         ),
       ),
     );
