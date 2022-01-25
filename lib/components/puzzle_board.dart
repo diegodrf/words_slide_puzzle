@@ -19,6 +19,10 @@ class PuzzleBoard extends StatelessWidget {
 }
 
 List<Row> generatePuzzleBoxes(List<List<String>> words) {
+  // TODO: Refactor this code
+  /// It's hard to read
+  /// It isn't be here
+  /// The functionality is right
   List<Row> _ = [];
   for (int y = 0; y< words.length; y++){
     List<PuzzleBox> puzzleBoxesRow = [];
