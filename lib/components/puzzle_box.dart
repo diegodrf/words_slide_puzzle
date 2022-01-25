@@ -6,7 +6,7 @@ import 'package:words_slide_puzzle/providers/puzzle_brain_provider.dart';
 class PuzzleBox extends StatelessWidget {
   final int x;
   final int y;
-
+  // TODO: Change this Widget to receive [Coordinate] instead x and y as int
   const PuzzleBox({Key? key, required this.x, required this.y})
       : super(key: key);
 
