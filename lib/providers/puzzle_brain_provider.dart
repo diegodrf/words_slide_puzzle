@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:words_slide_puzzle/models/coordinates.dart';
+import 'package:words_slide_puzzle/models/movements_enum.dart';
 import 'package:words_slide_puzzle/services/repository/local.dart';
 
 class PuzzleBrainProvider extends ChangeNotifier {
@@ -40,64 +41,105 @@ class PuzzleBrainProvider extends ChangeNotifier {
     return letter;
   }
 
+  Coordinates findEmptyBox() {
+    Coordinates? coordinates;
+    for (int y = 0; y < _gameBoard.length; y++) {
+      for (int x = 0; x < _gameBoard[y].length; x++) {
+        if (_gameBoard[y][x].isEmpty) {
+          coordinates = Coordinates(x: x, y: y);
+        }
+      }
+    }
+    return coordinates!;
+  }
+
   void changePositions(Coordinates from, Coordinates to) {
     String zero = _gameBoard[from.y][from.x];
     String nextElement = _gameBoard[to.y][to.x];
 
     _gameBoard[to.y][to.x] = zero;
     _gameBoard[from.y][from.x] = nextElement;
+    _emptyBlockCoordinate = findEmptyBox();
   }
 
-  void moveUp() {
-    if (_emptyBlockCoordinate.y > 0) {
-      changePositions(
-          _emptyBlockCoordinate,
-          Coordinates(
-              x: _emptyBlockCoordinate.x, y: _emptyBlockCoordinate.y + 1));
+  void moveUp(Coordinates currentPosition) {
+    changePositions(currentPosition,
+        Coordinates(x: currentPosition.x, y: currentPosition.y - 1));
+    if (kDebugMode) {
       print('Moving UP');
     }
   }
 
-  void moveLeft() {
-    if (_emptyBlockCoordinate.x > 0) {
-      changePositions(
-        Coordinates(x: _emptyBlockCoordinate.x - 1, y: _emptyBlockCoordinate.y),
-        _emptyBlockCoordinate,
-      );
-      print('Moving LEFT');
-    }
-  }
-
-  void moveRight() {
-    final int _columns = _gameBoard[0].length;
-    if (_emptyBlockCoordinate.x < _columns - 1) {
-      changePositions(
-          Coordinates(
-              x: _emptyBlockCoordinate.x + 1, y: _emptyBlockCoordinate.y),
-          _emptyBlockCoordinate);
-      print('Moving RIGHT');
-    }
-  }
-
-  void moveDown() {
-    final int _rows = _gameBoard.length;
-    if (_emptyBlockCoordinate.y < _rows - 1) {
-      changePositions(
-          _emptyBlockCoordinate,
-          Coordinates(
-              x: _emptyBlockCoordinate.x, y: _emptyBlockCoordinate.y - 1));
+  void moveDown(Coordinates currentPosition) {
+    changePositions(currentPosition,
+        Coordinates(x: currentPosition.x, y: currentPosition.y + 1));
+    if (kDebugMode) {
       print('Moving DOWN');
     }
   }
 
-  void moveBox(Coordinates coordinates) {
+  void moveLeft(Coordinates currentPosition) {
+    changePositions(currentPosition,
+        Coordinates(x: currentPosition.x - 1, y: currentPosition.y));
+    if (kDebugMode) {
+      print('Moving LEFT');
+    }
+  }
+
+  void moveRight(Coordinates currentPosition) {
+    changePositions(currentPosition,
+        Coordinates(x: currentPosition.x + 1, y: currentPosition.y));
+    if (kDebugMode) {
+      print('Moving RIGHT');
+    }
+  }
+
+  void moveBox(Coordinates currentPosition) {
     /// Verify if current block is near of empty block
     // TODO: Apply adjust to verify current position and apply correct movement
-    if (coordinates.x - _emptyBlockCoordinate.x == 1) {
-      moveLeft();
-    } else if (coordinates.x - _emptyBlockCoordinate.x == -1) {
-      moveRight();
+    MovementsEnum? direction = verifyWhereCanMove(currentPosition);
+    switch (direction) {
+      case MovementsEnum.up:
+        moveUp(currentPosition);
+        break;
+      case MovementsEnum.down:
+        moveDown(currentPosition);
+        break;
+      case MovementsEnum.left:
+        moveLeft(currentPosition);
+        break;
+      case MovementsEnum.right:
+        moveRight(currentPosition);
+        break;
+      default:
+        null;
     }
     notifyListeners();
+
+    if (kDebugMode) {
+      print('');
+      for (List<String> row in _gameBoard) {
+        print(row);
+      }
+      print('');
+    }
+  }
+
+  MovementsEnum? verifyWhereCanMove(Coordinates coordinates) {
+    if (coordinates.x + 1 == _emptyBlockCoordinate.x &&
+        coordinates.y == _emptyBlockCoordinate.y) {
+      return MovementsEnum.right;
+    } else if (coordinates.x - 1 == _emptyBlockCoordinate.x &&
+        coordinates.y == _emptyBlockCoordinate.y) {
+      return MovementsEnum.left;
+    } else if (coordinates.y + 1 == _emptyBlockCoordinate.y &&
+        coordinates.x == _emptyBlockCoordinate.x) {
+      return MovementsEnum.down;
+    } else if (coordinates.y - 1 == _emptyBlockCoordinate.y &&
+        coordinates.x == _emptyBlockCoordinate.x) {
+      return MovementsEnum.up;
+    } else {
+      return null;
+    }
   }
 }

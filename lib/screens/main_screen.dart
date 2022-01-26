@@ -18,9 +18,9 @@ class MainScreen extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () => provider.resetGame(),
-                  child: Text('START'),
+                  child: const Text('START'),
                 ),
-                PuzzleBoard(),
+                const PuzzleBoard(),
               ],
             );
           },

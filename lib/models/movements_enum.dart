@@ -1,0 +1,1 @@
+enum MovementsEnum { up, down, left, right }
