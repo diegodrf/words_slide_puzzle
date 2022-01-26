@@ -96,7 +96,6 @@ class PuzzleBrainProvider extends ChangeNotifier {
 
   void moveBox(Coordinates currentPosition) {
     /// Verify if current block is near of empty block
-    // TODO: Apply adjust to verify current position and apply correct movement
     MovementsEnum? direction = verifyWhereCanMove(currentPosition);
     switch (direction) {
       case MovementsEnum.up:

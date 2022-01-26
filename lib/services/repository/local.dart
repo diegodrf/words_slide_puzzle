@@ -8,13 +8,6 @@ const List<String> wordsDatabase = [
   'Claim'
 ];
 
-// TODO : Create a Class to manage repository
-/// - Return words as String OK
-/// - Return words shuffled
-/// - Return words as List
-/// - Return words as shuffled List
-/// - Return N random words from database
-
 class WordsRepository {
   final List<String> _words = wordsDatabase;
 

@@ -6,6 +6,7 @@ import 'package:words_slide_puzzle/providers/puzzle_brain_provider.dart';
 
 class PuzzleBoard extends StatelessWidget {
   const PuzzleBoard({Key? key}) : super(key: key);
+  // TODO verify if need to be statefull
 
   @override
   Widget build(BuildContext context) {
