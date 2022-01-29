@@ -21,7 +21,7 @@ class PuzzleBox extends StatelessWidget {
           } else if (provider.isThisBoxInsideACorrectWord(coordinates)) {
             return Colors.green;
           } else {
-            return Colors.red;
+            return Color(0xFF1E5128);
           }
         }
 
