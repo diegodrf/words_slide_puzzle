@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:math';
 
@@ -11,11 +12,28 @@ class PuzzleBrainProvider extends ChangeNotifier {
   List<List<String>> _gameBoard = [];
   Coordinates _emptyBlockCoordinate = const Coordinates(x: 0, y: 0);
   int _movements = 0;
+  DateTime _elapsedTime = DateTime(2022);
+  Timer? _timer;
+
+  DateTime get elapsedTime => _elapsedTime;
 
   List<List<String>> get gameBoard => UnmodifiableListView(_gameBoard);
+
   int get movements => _movements;
 
-  void _createBoard() {
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _elapsedTime = _elapsedTime.add(const Duration(seconds: 1));
+      notifyListeners();
+    });
+  }
+
+  void stopTimer() {
+      _timer?.cancel();
+      _elapsedTime = DateTime(2022);
+  }
+
+  Future<void> _createBoard() async {
     final List<List<String>> words = [];
     const int numberOfWords = 5;
     for (int i = 0; i < numberOfWords; i++) {
@@ -36,9 +54,11 @@ class PuzzleBrainProvider extends ChangeNotifier {
     _emptyBlockCoordinate = Coordinates(x: x, y: y);
   }
 
-  Future<void> resetGame() async {
-    _createBoard();
+  Future<bool> resetGame() async {
+    stopTimer();
+    await _createBoard();
     _movements = 0;
+    return true;
   }
 
   String getLetter(Coordinates coordinates) {
@@ -66,6 +86,9 @@ class PuzzleBrainProvider extends ChangeNotifier {
     _gameBoard[from.y][from.x] = nextElement;
     _emptyBlockCoordinate = findEmptyBox();
     _movements++;
+    if (_movements == 1) {
+      startTimer();
+    }
   }
 
   void moveUp(Coordinates currentPosition) {
