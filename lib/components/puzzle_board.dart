@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:words_slide_puzzle/components/puzzle_box.dart';
 import 'package:words_slide_puzzle/models/coordinates.dart';
-import 'package:words_slide_puzzle/providers/puzzle_brain_provider.dart';
 
 class PuzzleBoard extends StatelessWidget {
-  const PuzzleBoard({Key? key}) : super(key: key);
-  // TODO verify if need to be stateful
+  final List<List<String>> gameBoard;
+
+
+  const PuzzleBoard({Key? key, required this.gameBoard}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PuzzleBrainProvider>(
-      builder: (context, provider, child) {
-        return Column(
-          children: generatePuzzleBoxes(provider.gameBoard),
-        );
-      },
+    return Container(
+      height: 450.0,
+      width: 450.0,
+      decoration: const BoxDecoration(color: Colors.blueAccent),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: generatePuzzleBoxes(gameBoard),
+      ),
     );
   }
 }

@@ -10,8 +10,10 @@ class PuzzleBrainProvider extends ChangeNotifier {
   final WordsRepository _wordsRepository = WordsRepository();
   List<List<String>> _gameBoard = [];
   Coordinates _emptyBlockCoordinate = const Coordinates(x: 0, y: 0);
+  int _movements = 0;
 
   List<List<String>> get gameBoard => UnmodifiableListView(_gameBoard);
+  int get movements => _movements;
 
   void _createBoard() {
     final List<List<String>> words = [];
@@ -34,7 +36,10 @@ class PuzzleBrainProvider extends ChangeNotifier {
     _emptyBlockCoordinate = Coordinates(x: x, y: y);
   }
 
-  void resetGame() => _createBoard();
+  void resetGame() {
+    _createBoard();
+    _movements = 0;
+  }
 
   String getLetter(Coordinates coordinates) {
     final String letter = _gameBoard[coordinates.y][coordinates.x];
@@ -60,6 +65,7 @@ class PuzzleBrainProvider extends ChangeNotifier {
     _gameBoard[to.y][to.x] = zero;
     _gameBoard[from.y][from.x] = nextElement;
     _emptyBlockCoordinate = findEmptyBox();
+    _movements++;
   }
 
   void moveUp(Coordinates currentPosition) {
