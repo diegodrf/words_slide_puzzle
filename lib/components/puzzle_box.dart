@@ -32,6 +32,7 @@ class PuzzleBox extends StatelessWidget {
             height: kPuzzleBoxSize,
             width: kPuzzleBoxSize,
             decoration: BoxDecoration(
+              // TODO Define a design to the box
               borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               boxShadow: [
                 BoxShadow(

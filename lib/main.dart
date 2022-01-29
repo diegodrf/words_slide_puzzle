@@ -20,6 +20,7 @@ class WordsSlidePuzzleApp extends StatelessWidget {
         initialRoute: MainScreen.route,
         routes: {
           MainScreen.route: (context) => const MainScreen(),
+          // TODO Develop a new screen to show game history
         },
       ),
     );
