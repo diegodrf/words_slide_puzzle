@@ -85,3 +85,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Architects Daughter
+      fonts:
+        - asset: fonts/ArchitectsDaughter-Regular.ttf
+    - family: Love Ya Like A Sister
+      fonts:
+      - asset: fonts/LoveYaLikeASister-Regular.ttf
