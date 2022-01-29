@@ -36,7 +36,7 @@ class PuzzleBrainProvider extends ChangeNotifier {
     _emptyBlockCoordinate = Coordinates(x: x, y: y);
   }
 
-  void resetGame() {
+  Future<void> resetGame() async {
     _createBoard();
     _movements = 0;
   }

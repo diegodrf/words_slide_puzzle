@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words_slide_puzzle/components/puzzle_box.dart';
+import 'package:words_slide_puzzle/constants.dart';
 import 'package:words_slide_puzzle/models/coordinates.dart';
 
 class PuzzleBoard extends StatelessWidget {
@@ -14,7 +15,7 @@ class PuzzleBoard extends StatelessWidget {
     return Container(
       height: 450.0,
       width: 450.0,
-      decoration: const BoxDecoration(color: Colors.blueAccent),
+      decoration: BoxDecoration(color: kBoardGameColor),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: generatePuzzleBoxes(gameBoard),
