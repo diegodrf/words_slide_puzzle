@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:words_slide_puzzle/models/coordinates.dart';
-import 'package:words_slide_puzzle/models/movements_enum.dart';
+import 'package:words_slide_puzzle/models/enum/movements_enum.dart';
 import 'package:words_slide_puzzle/services/repository/local.dart';
 
 class PuzzleBrainProvider extends ChangeNotifier {
