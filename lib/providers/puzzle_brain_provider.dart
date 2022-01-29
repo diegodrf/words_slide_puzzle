@@ -9,7 +9,9 @@ import 'package:words_slide_puzzle/services/repository/local.dart';
 
 class PuzzleBrainProvider extends ChangeNotifier {
   final WordsRepository _wordsRepository = WordsRepository();
+  final int numberOfWords = 5;
   List<List<String>> _gameBoard = [];
+  List<bool> _correctRows = [];
   Coordinates _emptyBlockCoordinate = const Coordinates(x: 0, y: 0);
   int _movements = 0;
   DateTime _elapsedTime = DateTime(2022);
@@ -21,6 +23,20 @@ class PuzzleBrainProvider extends ChangeNotifier {
 
   int get movements => _movements;
 
+  verifyIfAnyWordIsCorrect() {
+    for (int index = 0; index < _correctRows.length; index++) {
+      if (_wordsRepository.verifyIfExists(_gameBoard[index].join(''))) {
+        _correctRows[index] = true;
+      } else {
+        _correctRows[index] = false;
+      }
+    }
+  }
+
+  bool isThisBoxInsideACorrectWord(Coordinates coordinates) {
+    return _correctRows[coordinates.y];
+  }
+
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _elapsedTime = _elapsedTime.add(const Duration(seconds: 1));
@@ -29,18 +45,27 @@ class PuzzleBrainProvider extends ChangeNotifier {
   }
 
   void stopTimer() {
-      _timer?.cancel();
-      _elapsedTime = DateTime(2022);
+    _timer?.cancel();
+    _elapsedTime = DateTime(2022);
   }
 
-  Future<void> _createBoard() async {
+  void _createCorrectRowsList(int numberOfRows) {
+    _correctRows = List<bool>.generate(numberOfRows, (index) => false);
+  }
+
+  Future<void> _createBoard(int numberOfWords) async {
     final List<List<String>> words = [];
-    const int numberOfWords = 5;
     for (int i = 0; i < numberOfWords; i++) {
+      // It's the original logic
       final String word = _wordsRepository.getRandomWord();
       final wordShuffled = _wordsRepository.shuffleString(word);
       final wordShuffledASList = _wordsRepository.splitString(wordShuffled);
       words.add(wordShuffledASList);
+
+      // It's the debug logic
+      // final String word = _wordsRepository.getRandomWord();
+      // final wordShuffledASList = _wordsRepository.splitString(word);
+      // words.add(wordShuffledASList);
     }
     _gameBoard = words;
     _removeRandomElement();
@@ -56,7 +81,8 @@ class PuzzleBrainProvider extends ChangeNotifier {
 
   Future<bool> resetGame() async {
     stopTimer();
-    await _createBoard();
+    await _createBoard(numberOfWords);
+    _createCorrectRowsList(numberOfWords);
     _movements = 0;
     return true;
   }
@@ -79,16 +105,17 @@ class PuzzleBrainProvider extends ChangeNotifier {
   }
 
   void changePositions(Coordinates from, Coordinates to) {
-    String zero = _gameBoard[from.y][from.x];
-    String nextElement = _gameBoard[to.y][to.x];
+    String letter = _gameBoard[from.y][from.x];
+    String emptyBox = _gameBoard[to.y][to.x];
 
-    _gameBoard[to.y][to.x] = zero;
-    _gameBoard[from.y][from.x] = nextElement;
+    _gameBoard[to.y][to.x] = letter;
+    _gameBoard[from.y][from.x] = emptyBox;
     _emptyBlockCoordinate = findEmptyBox();
     _movements++;
     if (_movements == 1) {
       startTimer();
     }
+    verifyIfAnyWordIsCorrect();
   }
 
   void moveUp(Coordinates currentPosition) {

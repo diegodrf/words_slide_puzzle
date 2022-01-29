@@ -5,7 +5,11 @@ const List<String> wordsDatabase = [
   'House',
   'Spell',
   'Plane',
-  'Claim'
+  'Claim',
+  'Black',
+  'Brown',
+  'Three',
+  'Chess'
 ];
 
 class WordsRepository {
@@ -23,6 +27,7 @@ class WordsRepository {
   }
 
   bool verifyIfExists(String word) {
+    print(word);
     return _words.contains(word);
   }
 

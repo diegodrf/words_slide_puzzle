@@ -5,16 +5,20 @@ import 'package:words_slide_puzzle/models/coordinates.dart';
 
 class PuzzleBoard extends StatelessWidget {
   final List<List<String>> gameBoard;
-
-
   const PuzzleBoard({Key? key, required this.gameBoard}) : super(key: key);
+
+  double calculateSize() {
+    final double boxesSize = kPuzzleBoxSize * gameBoard.length;
+    final double marginsSize= kPuzzleBoxMargin * gameBoard.length * 2;
+    return boxesSize + marginsSize;
+  }
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 450.0,
-      width: 450.0,
+      height: calculateSize(),
+      width: calculateSize(),
       decoration: BoxDecoration(color: kBoardGameColor),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -5,16 +5,11 @@ import 'package:words_slide_puzzle/components/puzzle_board.dart';
 import 'package:words_slide_puzzle/constants.dart';
 import 'package:words_slide_puzzle/providers/puzzle_brain_provider.dart';
 
-class MainScreen extends StatefulWidget {
-  static const String route = 'main_screen';
 
+class MainScreen extends StatelessWidget {
+  static const String route = 'main_screen';
   const MainScreen({Key? key}) : super(key: key);
 
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -43,3 +38,4 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
+
