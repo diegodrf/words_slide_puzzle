@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:words_slide_puzzle/components/app_bar_component.dart';
 import 'package:words_slide_puzzle/components/game_status_component.dart';
+import 'package:words_slide_puzzle/components/menu_component.dart';
 import 'package:words_slide_puzzle/components/puzzle_board.dart';
-import 'package:words_slide_puzzle/constants.dart';
 import 'package:words_slide_puzzle/providers/puzzle_brain_provider.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainScreen extends StatefulWidget {
   static const String route = 'main_screen';
@@ -30,7 +29,7 @@ class _MainScreenState extends State<MainScreen>
       duration: const Duration(seconds: 10),
     );
 
-    _animation = ColorTween(begin: Color(0xFFD8E9A8), end: Color(0xFF4E9F3D))
+    _animation = ColorTween(begin: const Color(0xFFD8E9A8), end: const Color(0xFF4E9F3D))
         .animate(_animationController);
 
     _animationController.repeat(reverse: true);
@@ -57,6 +56,7 @@ class _MainScreenState extends State<MainScreen>
                   children: [
                     const AppBarComponent(),
                     const GameStatusComponent(),
+                    const MenuComponent(),
                     PuzzleBoard(gameBoard: provider.gameBoard),
                   ],
                 ),

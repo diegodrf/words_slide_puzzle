@@ -9,7 +9,8 @@ const List<String> wordsDatabase = [
   'Black',
   'Brown',
   'Three',
-  'Chess'
+  'Chess',
+  'Crawl'
 ];
 
 class WordsRepository {

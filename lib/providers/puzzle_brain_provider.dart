@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:words_slide_puzzle/models/coordinates.dart';
 import 'package:words_slide_puzzle/models/enum/audios_enum.dart';
 import 'package:words_slide_puzzle/models/enum/movements_enum.dart';
-import 'package:words_slide_puzzle/services/audio_player/audio_player.dart';
 import 'package:words_slide_puzzle/services/repository/local.dart';
 
 class PuzzleBrainProvider extends ChangeNotifier {
@@ -17,6 +17,9 @@ class PuzzleBrainProvider extends ChangeNotifier {
   int _movements = 0;
   DateTime _elapsedTime = DateTime(2022);
   Timer? _timer;
+  bool _audio = true;
+
+  bool get audio => _audio;
 
   DateTime get elapsedTime => _elapsedTime;
 
@@ -24,16 +27,29 @@ class PuzzleBrainProvider extends ChangeNotifier {
 
   int get movements => _movements;
 
-  verifyIfAnyWordIsCorrect() {
+  void changeAudioStatus() {
+    _audio = !_audio;
+    notifyListeners();
+  }
+
+  verifyIfAnyWordIsCorrect() async {
+    bool playAudio = false;
     for (int index = 0; index < _correctRows.length; index++) {
       if (_wordsRepository.verifyIfExists(_gameBoard[index].join(''))) {
         if (_correctRows[index] != true) {
           _correctRows[index] = true;
-          AppAudioPlayer.getInstance().play(AudiosEnum.success);
+          if (_audio && playAudio == false) {
+            playAudio = true;
+          }
         }
       } else {
         _correctRows[index] = false;
       }
+    }
+    if(playAudio) {
+      // A protection to play audio success only one time
+      AudioPlayer _audioPlayer = AudioPlayer();
+      _audioPlayer.play(AudiosEnum.success);
     }
   }
 
@@ -61,15 +77,15 @@ class PuzzleBrainProvider extends ChangeNotifier {
     final List<List<String>> words = [];
     for (int i = 0; i < numberOfWords; i++) {
       // It's the original logic
-      // final String word = _wordsRepository.getRandomWord();
-      // final wordShuffled = _wordsRepository.shuffleString(word);
-      // final wordShuffledASList = _wordsRepository.splitString(wordShuffled);
-      // words.add(wordShuffledASList);
+      final String word = _wordsRepository.getRandomWord();
+      final wordShuffled = _wordsRepository.shuffleString(word);
+      final wordShuffledASList = _wordsRepository.splitString(wordShuffled);
+      words.add(wordShuffledASList);
 
       // It's the debug logic
-      final String word = _wordsRepository.getRandomWord();
-      final wordShuffledASList = _wordsRepository.splitString(word);
-      words.add(wordShuffledASList);
+      // final String word = _wordsRepository.getRandomWord();
+      // final wordShuffledASList = _wordsRepository.splitString(word);
+      // words.add(wordShuffledASList);
     }
     _gameBoard = words;
     _removeRandomElement();
@@ -172,6 +188,10 @@ class PuzzleBrainProvider extends ChangeNotifier {
         break;
       default:
         null;
+    }
+    if (_audio) {
+      AudioPlayer _audioPlayer = AudioPlayer();
+      _audioPlayer.play(AudiosEnum.tap);
     }
     notifyListeners();
   }
