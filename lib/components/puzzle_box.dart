@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:words_slide_puzzle/constants.dart';
 import 'package:words_slide_puzzle/models/coordinates.dart';
+import 'package:words_slide_puzzle/models/enum/audios_enum.dart';
 import 'package:words_slide_puzzle/providers/puzzle_brain_provider.dart';
+import 'package:words_slide_puzzle/services/audio_player/audio_player.dart';
 
 class PuzzleBox extends StatelessWidget {
   final Coordinates coordinates;
@@ -26,7 +28,10 @@ class PuzzleBox extends StatelessWidget {
         }
 
         return GestureDetector(
-          onTap: () => provider.moveBox(coordinates),
+          onTap: () {
+            AppAudioPlayer.getInstance().play(AudiosEnum.tap);
+            provider.moveBox(coordinates);
+          },
           child: Container(
             margin: const EdgeInsets.all(kPuzzleBoxMargin),
             height: kPuzzleBoxSize,
@@ -37,7 +42,7 @@ class PuzzleBox extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color:
-                      letter.isNotEmpty ? Colors.black54 : Colors.transparent,
+                  letter.isNotEmpty ? Colors.black54 : Colors.transparent,
                   offset: const Offset(3.0, 3.0),
                 )
               ],

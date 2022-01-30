@@ -27,7 +27,6 @@ class WordsRepository {
   }
 
   bool verifyIfExists(String word) {
-    print(word);
     return _words.contains(word);
   }
 
