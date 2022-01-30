@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:words_slide_puzzle/components/app_bar_component.dart';
 import 'package:words_slide_puzzle/components/game_status_component.dart';
 import 'package:words_slide_puzzle/components/puzzle_board.dart';
 import 'package:words_slide_puzzle/constants.dart';
@@ -42,11 +43,6 @@ class _MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Icon(FontAwesomeIcons.frog, color: Color(0xFF4E9F3D),),
-          backgroundColor: Color(0xFF1E5128),
-          centerTitle: true,
-        ),
         backgroundColor: _animation.value,
         body: Consumer<PuzzleBrainProvider>(
           builder: (context, provider, child) {
@@ -59,6 +55,7 @@ class _MainScreenState extends State<MainScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const AppBarComponent(),
                     const GameStatusComponent(),
                     PuzzleBoard(gameBoard: provider.gameBoard),
                   ],
