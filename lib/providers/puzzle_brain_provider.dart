@@ -46,7 +46,7 @@ class PuzzleBrainProvider extends ChangeNotifier {
         _correctRows[index] = false;
       }
     }
-    if(playAudio) {
+    if (playAudio) {
       // A protection to play audio success only one time
       AudioPlayer _audioPlayer = AudioPlayer();
       _audioPlayer.play(AudiosEnum.success);
@@ -73,7 +73,7 @@ class PuzzleBrainProvider extends ChangeNotifier {
     _correctRows = List<bool>.generate(numberOfRows, (index) => false);
   }
 
-  Future<void> _createBoard(int numberOfWords) async {
+  void _createBoard(int numberOfWords) {
     final List<List<String>> words = [];
     for (int i = 0; i < numberOfWords; i++) {
       // It's the original logic
@@ -89,7 +89,6 @@ class PuzzleBrainProvider extends ChangeNotifier {
     }
     _gameBoard = words;
     _removeRandomElement();
-    notifyListeners();
   }
 
   void _removeRandomElement() {
@@ -99,12 +98,14 @@ class PuzzleBrainProvider extends ChangeNotifier {
     _emptyBlockCoordinate = Coordinates(x: x, y: y);
   }
 
-  Future<bool> resetGame() async {
+  void resetGame({bool notify = true}) {
     stopTimer();
-    await _createBoard(numberOfWords);
+    _createBoard(numberOfWords);
     _createCorrectRowsList(numberOfWords);
     _movements = 0;
-    return true;
+    if (notify) {
+      notifyListeners();
+    }
   }
 
   String getLetter(Coordinates coordinates) {

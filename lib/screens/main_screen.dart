@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen>
   @override
   void initState() {
     super.initState();
-
+    Provider.of<PuzzleBrainProvider>(context, listen: false).resetGame(notify: false);
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 10),
